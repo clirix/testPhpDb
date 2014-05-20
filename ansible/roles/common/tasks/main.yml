@@ -1,0 +1,24 @@
+ # Commons
+  - name: Update APT package cache
+    apt: update_cache=yes
+
+  - name: Install packages
+    apt: pkg={{item}} state=installed
+    with_items: basic_pkgs
+    tags: basic-pkgs
+
+#  - name: Write config files
+#    sudo: False
+#    template: src={{config_files_src}} dest={{config_files_dest}}
+#    tags: config-files
+#
+#  - name: Change default shell
+#    user: name={{item.user}} shell={{item.shell}}
+#    with_items: default_shell
+#    tags: default-shell
+#
+#  - name: Copy Oh My Zsh
+#    copy: src=oh-my-zsh.tar.gz dest=/tmp/oh-my-zsh.tar.gz owner=vagrant
+#
+#  - name: Install Oh My Zsh
+#    command: tar -xzf /tmp/oh-my-zsh.tar.gz -C /home/vagrant creates=/home/vagrant/.oh-my-zsh

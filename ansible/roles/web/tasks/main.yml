@@ -1,0 +1,60 @@
+- include: php55.yml
+  when: ansible_hostname  != "php54"
+
+- include: php54.yml
+  when: ansible_hostname  == "php54"
+
+- name: PhpUnit
+  copy: src=phpunit.phar dest=/usr/local/bin/phpunit.phar
+  register: result
+
+- command: chmod +x /usr/local/bin/phpunit.phar
+
+- file: src=/usr/local/bin/phpunit.phar dest=/usr/local/bin/phpunit owner=vagrant group=vagrant state=link
+
+#- name: PhpUnit
+#  sudo: false
+#  shell: /usr/bin/php /vagrant/library/composer.phar --no-progress global require 'phpunit/phpunit=3.7.*' creates=/home/vagrant/.composer/vendor/phpunit
+#  register: result
+
+#- name: Upgrade PEAR
+#  sudo: True
+#  command: pear upgrade pear
+#  tags: phpunit
+#
+#- name: Dependencies pear phpunit
+#  sudo: True
+#  command: pear {{item.cmd}}
+#  with_items: ${pear_deps}
+#  ignore_errors: True
+#  register: result
+#  tags: phpunit
+
+
+- debug: var=result
+
+- name: Enable Mod-Rewrite
+  command: a2enmod rewrite
+
+- name: MySQL | Configuration file, my.cnf
+  template: src=etc-mysql-my.cnf.j2 dest=/etc/mysql/my.cnf
+  tags: db
+
+- include: mysql-secure.yml
+
+- include: application.yml
+
+- name: Restart Apache
+  service: name=apache2 state=restarted
+
+- name: Restart MySQL
+  service: name=mysql state=restarted
+  tags: db
+
+- name: Gruppe www-data für Vagrant
+  sudo: True
+  shell: adduser vagrant www-data
+
+- name: Gruppe vagrant für www-data
+  sudo: True
+  shell: adduser www-data vagrant

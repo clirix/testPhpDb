@@ -1,0 +1,7 @@
+# vagrant.yml
+- hosts: all
+  user: vagrant
+  sudo: True
+  roles:
+    - common
+    - web

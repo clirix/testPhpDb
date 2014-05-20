@@ -1,0 +1,31 @@
+- name: Repository Php54
+  apt_repository: repo='ppa:ondrej/php5-oldstable' update_cache=yes
+
+- debug: var=ansible_hostname
+
+- name: Install Apache2, Php and Mysql 54
+  apt: pkg={{item}} state=installed
+  with_items:
+  - apache2
+  - php5
+  - libapache2-mod-php5
+  - mysql-server
+  - mysql-client
+  - python-mysqldb
+
+- name: Install Php Modules 54
+  apt: pkg={{item}} state=installed
+  with_items: php_pkgs
+  tags: php-pkgs
+
+- name: Write config files 54
+  sudo: True
+  template: src={{item.src}} dest={{item.dest}} owner={{item.owner}} group={{item.group}} mode={{item.mode}}
+  with_items: config_files_54
+  tags: config-files
+
+- name: Enable Site Vagrant 54
+  command: a2ensite vagrant
+
+- name: Disable Default Site 54
+  command: a2dissite default

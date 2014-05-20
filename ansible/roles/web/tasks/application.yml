@@ -1,0 +1,18 @@
+
+- name: Anlegen Mysql User für ddctp
+  mysql_user: name='testmartin' password='testpasswort' priv=*.*:ALL state=present
+  tags: mysql
+
+- name: Datenbanken für ddctp anlegen
+  mysql_db: name='testaufgabe' state=present
+  tags: mysql
+
+#- name: SQL Files hochladen
+#  copy: src={{item}}.sql  dest=/tmp/{{item}}.sql owner=vagrant
+#  with_items: ${dbs}
+#  tags: ddctp
+
+#- name: SQL Files einspielen
+#  shell: mysql --host=localhost --user={{db_user}} --password={{db_pw}} {{item}} < /tmp/{{item}}.sql
+#  with_items: ${dbs}
+#  tags: ddctp
