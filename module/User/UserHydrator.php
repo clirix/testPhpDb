@@ -17,7 +17,7 @@ class UserHydrator
 {
 
     /**
-     * Mappt Object aud Datenbankfelder
+     * Mappt Objekt auf Datenbankfelder
      * @param UserEntity $object
      * @return array
      */
