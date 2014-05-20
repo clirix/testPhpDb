@@ -2,14 +2,13 @@
 use Module\User\User;
 use Module\User\UserEntity;
 
-opcache_reset();
 define('MODULE_PATH', realpath(dirname(__FILE__).'/module'));
 require_once(MODULE_PATH.'/User/User.php');
 
 // UserObjekt aufrufen
 $user = new User();
 $msg = '';
-if(isset($_POST) && !empty($_POST)){
+if (isset($_POST) && !empty($_POST['FirstName'])) {
     $newUser = new UserEntity();
     $newUser->setEmail($_POST['Email']);
     $newUser->setFirstName($_POST['FirstName']);
@@ -22,10 +21,10 @@ $userTableRows ='';
 
 foreach($users as $user){
     $userTableRows .= '<tr>';
-    $userTableRows .= '<td>'.$user->getId().'</td>';
-    $userTableRows .= '<td>'.$user->getFirstName().'</td>';
-    $userTableRows .= '<td>'.$user->getLastName().'</td>';
-    $userTableRows .= '<td>'.$user->getEmail().'</td>';
+    $userTableRows .= '<td>' . htmlspecialchars($user->getId()) . '</td>';
+    $userTableRows .= '<td>' . htmlspecialchars($user->getFirstName()) . '</td>';
+    $userTableRows .= '<td>' . htmlspecialchars($user->getLastName()) . '</td>';
+    $userTableRows .= '<td>' . htmlspecialchars($user->getEmail()) . '</td>';
     $userTableRows .= '</tr>';
 }
 
@@ -51,7 +50,7 @@ echo <<<HTML
                 <label for="Email">E-Mail</label>
                 <input type="text" name="Email" size="40">
             </p>
-            <input type="submit" name="Submit" value="Submit">
+            <input type="submit" name="Submit" value="Senden">
         </form>
             $msg
         </p>

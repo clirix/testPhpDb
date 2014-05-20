@@ -51,13 +51,14 @@ class Database {
         }
     }
 
-    public function insertData ($table , array $schema, $obj){
-        $fields = array_keys($schema);
+    public function insertData($table, array $data)
+    {
+        $fields = array_keys($data);
         $fieldCount = count($fields);
         $sql = "INSERT INTO ".$table." ( ";
         $i = 1;
         $inserts = '';
-        foreach ($fields as $field) {
+        foreach ($data as $field => $content) {
                 if($i == $fieldCount){
                     $separator = " ";
                     $insertSeparator = "' ";
@@ -67,8 +68,7 @@ class Database {
                 }
                 $sql .= $field.$separator;
 
-                $function = 'get'.$schema[$field];
-                $inserts .= "'".$obj->$function().$insertSeparator;
+            $inserts .= "'" . $content . $insertSeparator;
 
                 $i++;
         }

@@ -8,6 +8,7 @@
 namespace Module\User;
 require_once(MODULE_PATH.'/Database/Database.php');
 require_once(MODULE_PATH.'/User/UserEntity.php');
+require_once(MODULE_PATH . '/User/UserHydrator.php');
 
 
 use Module\Database\Database;
@@ -21,15 +22,7 @@ class User {
      * @var \Module\Database\Database
      */
     protected $db;
-    /**
-     * @var array
-     */
-    protected $dbSchemaMapping = array(
-        'id' => 'Id',
-        'first_name' => 'FirstName',
-        'last_name' => 'LastName',
-        'email' => 'Email',
-    );
+
     /**
      * @var string
      */
@@ -73,15 +66,8 @@ class User {
      */
     private function _getUserEntity($data){
         $user = new UserEntity();
-
-        //  Generiert die Settermethoden aus der SchemaConfig
-        // ersetzt mir also die einzelnen Aufrufe von setId()
-        // in der userEntity
-        foreach($data as $key => $value){
-            $function = 'set'.$this->dbSchemaMapping[$key];
-            $user->$function($value);
-        }
-        return $user;
+        $hydrator = new UserHydrator();
+        return $hydrator->hydrate($data, $user);
     }
 
     /**
@@ -89,7 +75,9 @@ class User {
      * @return string
      */
     public function setUser(UserEntity $user){
-        $ret = $this->db->insertData($this->dbTableName, $this->dbSchemaMapping, $user);
+        $hydrator = new UserHydrator();
+        $data = $hydrator->extract($user);
+        $ret = $this->db->insertData($this->dbTableName, $data);
         return $ret ? ' Nutzer erfolgreich angelegt.' : 'Nutzer konnte nicht angelegt werden.';
     }
 } 
