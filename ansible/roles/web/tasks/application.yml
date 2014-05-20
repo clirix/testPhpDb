@@ -7,12 +7,12 @@
   mysql_db: name='testaufgabe' state=present
   tags: mysql
 
-#- name: SQL Files hochladen
-#  copy: src={{item}}.sql  dest=/tmp/{{item}}.sql owner=vagrant
-#  with_items: ${dbs}
-#  tags: ddctp
+- name: SQL Files hochladen
+  copy: src=db.sql  dest=/tmp/db.sql owner=vagrant
+  with_items: ${dbs}
+  tags: mysql
 
-#- name: SQL Files einspielen
-#  shell: mysql --host=localhost --user={{db_user}} --password={{db_pw}} {{item}} < /tmp/{{item}}.sql
-#  with_items: ${dbs}
-#  tags: ddctp
+- name: SQL Files einspielen
+  shell: mysql --host=localhost --user=testmartin --password=testpasswort testaufgabe < /tmp/db.sql
+  with_items: ${dbs}
+  tags: mysql
