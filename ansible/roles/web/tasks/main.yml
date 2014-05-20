@@ -1,8 +1,4 @@
 - include: php55.yml
-  when: ansible_hostname  != "php54"
-
-- include: php54.yml
-  when: ansible_hostname  == "php54"
 
 - name: PhpUnit
   copy: src=phpunit.phar dest=/usr/local/bin/phpunit.phar
@@ -11,25 +7,6 @@
 - command: chmod +x /usr/local/bin/phpunit.phar
 
 - file: src=/usr/local/bin/phpunit.phar dest=/usr/local/bin/phpunit owner=vagrant group=vagrant state=link
-
-#- name: PhpUnit
-#  sudo: false
-#  shell: /usr/bin/php /vagrant/library/composer.phar --no-progress global require 'phpunit/phpunit=3.7.*' creates=/home/vagrant/.composer/vendor/phpunit
-#  register: result
-
-#- name: Upgrade PEAR
-#  sudo: True
-#  command: pear upgrade pear
-#  tags: phpunit
-#
-#- name: Dependencies pear phpunit
-#  sudo: True
-#  command: pear {{item.cmd}}
-#  with_items: ${pear_deps}
-#  ignore_errors: True
-#  register: result
-#  tags: phpunit
-
 
 - debug: var=result
 
