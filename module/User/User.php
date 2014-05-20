@@ -19,26 +19,21 @@ use Module\Database\Database;
  */
 class User {
     /**
+     * Datenbankverbindung
      * @var \Module\Database\Database
      */
     protected $db;
 
     /**
+     * Name der Datenbanktabelle
      * @var string
      */
     protected $dbTableName = 'user';
 
-    /**
-     * @return array
-     */
-    public function getDbSchemaMapping()
-    {
-        return $this->dbSchemaMapping;
-    }
-
 
     /**
-     *
+     * Konstruktor
+     * Bei Aufruf wird Verbindung zur Datenbank aufgebaut
      */
     public function __construct()
     {
@@ -46,6 +41,8 @@ class User {
     }
 
     /**
+     * Holte alle Nutzer aus der Datenbank
+     * und gibt ein Array aus Nutzerentitäten zurück
      * @return array
      */
     public function getUserCollection()
@@ -61,6 +58,8 @@ class User {
     }
 
     /**
+     * Erstellt das ÜbergabeObjekt für den Hydrator
+     * und gibt einzelne Nutzerentität zurück
      * @param $data
      * @return UserEntity
      */
@@ -71,6 +70,8 @@ class User {
     }
 
     /**
+     * Übergibt einen neue Nutzerentität
+     * nach umwandlung zum Array der Datenbank zum Speichern
      * @param UserEntity $user
      * @return string
      */

@@ -9,6 +9,9 @@ require_once(MODULE_PATH.'/User/User.php');
 $user = new User();
 $msg = '';
 if (isset($_POST) && !empty($_POST['FirstName'])) {
+    // Wenn Daten aus dem Formular übermittelt werden,
+    // eine neue Nutzer Entität anlegen
+    // und als Nutzer speichern
     $newUser = new UserEntity();
     $newUser->setEmail($_POST['Email']);
     $newUser->setFirstName($_POST['FirstName']);
@@ -16,9 +19,9 @@ if (isset($_POST) && !empty($_POST['FirstName'])) {
     $msg = $user->setUser($newUser);
 }
 
+// Abholen aller Nutzer und tabellenzeilen generieren
 $users = $user->getUserCollection();
 $userTableRows ='';
-
 foreach($users as $user){
     $userTableRows .= '<tr>';
     $userTableRows .= '<td>' . htmlspecialchars($user->getId()) . '</td>';

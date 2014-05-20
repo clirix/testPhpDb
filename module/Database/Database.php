@@ -11,8 +11,16 @@ namespace Module\Database;
 
 use mysqli;
 
+/**
+ * Class Database
+ * @package Module\Database
+ */
 class Database {
 
+    /**
+     * Konfiguration für Datenbankverbindung
+     * @var array
+     */
     protected $dbConfig = array(
         'host' => 'localhost',
         'user' => 'testmartin',
@@ -20,8 +28,16 @@ class Database {
         'database' => 'testaufgabe'
     );
 
+    /**
+     * Datenbankverbindung
+     * @var \mysqli|null
+     */
     protected $db = null;
 
+    /**
+     * Konstruktor- DB-Verbindung wird aufgebaut
+     * @throws \Exception
+     */
     public function __construct()
     {
         // Verbindung zur Datenbank herstellen
@@ -31,10 +47,19 @@ class Database {
         }
     }
 
+    /**
+     * Destruktor
+     * DB-Verbidung wird geschlossen
+     */
     public function __destruct(){
         $this->db->close();
     }
 
+    /**
+     * Holte eine Kollektion aus der Datenbank
+     * @param $table string Tabellenname
+     * @return array|bool
+     */
     public function getCollection($table)
     {
         $sql = 'SELECT * FROM '.$table;
@@ -51,26 +76,30 @@ class Database {
         }
     }
 
+    /**
+     * Speichert einen Datensatz in der Datenbank
+     * @param $table string Tabellenname
+     * @param array $data
+     * @return bool|\mysqli_result
+     */
     public function insertData($table, array $data)
     {
-        $fields = array_keys($data);
-        $fieldCount = count($fields);
+        $fieldCount = count($data);
         $sql = "INSERT INTO ".$table." ( ";
         $i = 1;
         $inserts = '';
         foreach ($data as $field => $content) {
-                if($i == $fieldCount){
-                    $separator = " ";
-                    $insertSeparator = "' ";
-                }else{
-                    $separator = ", ";
-                    $insertSeparator = "', ";
-                }
-                $sql .= $field.$separator;
-
+            if ($i == $fieldCount) {
+                $separator = " ";
+                $insertSeparator = "' ";
+            } else {
+                $separator = ", ";
+                $insertSeparator = "', ";
+            }
+            $sql .= $field . $separator;
             $inserts .= "'" . $content . $insertSeparator;
 
-                $i++;
+            $i++;
         }
         $sql .= ") VALUES ( ".$inserts.")";
 

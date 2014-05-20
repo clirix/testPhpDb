@@ -2,13 +2,6 @@ default_shell:
     - user: 'vagrant'
       shell: '/bin/zsh'
 
-
-config_files_src: 'zshrc.j2'
-config_files_dest: '~/.zshrc'
-#      owner: 'vagrant'
-#      group: 'vagrant'
-#      mode: '0644'
-
 basic_pkgs:
     - zip
     - curl

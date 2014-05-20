@@ -9,9 +9,18 @@
 namespace Module\User;
 
 
+/**
+ * Class UserHydrator
+ * @package Module\User
+ */
 class UserHydrator
 {
 
+    /**
+     * Mappt Object aud Datenbankfelder
+     * @param UserEntity $object
+     * @return array
+     */
     public function extract(UserEntity $object)
     {
         return array(
@@ -22,6 +31,13 @@ class UserHydrator
         );
     }
 
+    /**
+     * Liest Datenbankfelder aus und
+     * mappt auf Nutzerentität
+     * @param array $data
+     * @param UserEntity $object
+     * @return UserEntity
+     */
     public function hydrate(array $data, UserEntity $object)
     {
         $object->setId($data['id']);

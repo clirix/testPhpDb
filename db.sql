@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS user(
   first_name char(40),
   last_name char (40),
   email char (60),
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE (email)
 );
